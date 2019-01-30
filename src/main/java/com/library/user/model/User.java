@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Entity
-@Table(name="LB_USERS")
+@Table(name="LIB_USERS")
 @Slf4j
 public class User {
 	
@@ -87,7 +87,7 @@ public class User {
 		return this;
 	}
 
-	private void flushChanges() {
+	public void flushChanges() {
 		this.changes.clear();
 	}
 
@@ -105,5 +105,9 @@ public class User {
                 Case( $(), this )
         );
     }
+
+	public List<DomainEvent> changes() {
+		 return ImmutableList.copyOf( this.changes );
+	}
 
 }
