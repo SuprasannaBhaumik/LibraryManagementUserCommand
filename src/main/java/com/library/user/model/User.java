@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.esotericsoftware.minlog.Log;
 import com.library.user.event.DomainEvent;
 import com.library.user.event.UserDeleted;
 import com.library.user.event.UserInitialized;
@@ -53,7 +52,7 @@ public class User {
 	}
 
 	private User userInitialized(final UserInitialized event) {
-		Log.info("user is initialized");
+		log.info("user is initialized");
 		flushChanges();
 		this.id = event.getUserId();
 		this.changes.add(event);
@@ -61,7 +60,7 @@ public class User {
 	}
 	
 	public void renameUser(final String name) {
-		Log.info("user is renamed to : "+ name);
+		log.info("user is renamed to : "+ name);
         userRenamed(new UserRenamed( name, this.id, Instant.now()));
     }
 
@@ -72,7 +71,7 @@ public class User {
     }
 
     public void deleteUser(final String userId) {
-    	Log.info("deleting the user with id: "+ userId);
+    	log.info("deleting the user with id: "+ userId);
     	userDeleted( new UserDeleted(UUID.fromString(userId), Instant.now()));
     }
 
