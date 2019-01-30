@@ -1,7 +1,13 @@
 package com.library.user.model;
 
+import static io.vavr.API.$;
+import static io.vavr.API.Case;
+import static io.vavr.Predicates.instanceOf;
+import static io.vavr.collection.Stream.ofAll;
+
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +21,7 @@ import com.library.user.event.UserDeleted;
 import com.library.user.event.UserInitialized;
 import com.library.user.event.UserRenamed;
 
+import io.vavr.API;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -75,12 +82,28 @@ public class User {
     	userDeleted( new UserDeleted(UUID.fromString(userId), Instant.now()));
     }
 
-	private void userDeleted(UserDeleted event) {
+	private User userDeleted(UserDeleted event) {
 		this.changes.add(event);
+		return this;
 	}
 
 	private void flushChanges() {
 		this.changes.clear();
 	}
-	
+
+	//event handling methods
+	public static User createFrom(final UUID userid, final Collection<DomainEvent> domainEvents) {
+		return ofAll(domainEvents)
+				.foldLeft(new User(userid), User::handleEvent);
+    }
+
+	public User handleEvent(final DomainEvent domainEvent) {
+        return API.Match(domainEvent).of(
+                Case($(instanceOf(UserInitialized.class)), this::userInitialized ),
+                Case($(instanceOf(UserRenamed.class)), this::userRenamed ),
+                Case($(instanceOf(UserDeleted.class ) ), this::userDeleted ),
+                Case( $(), this )
+        );
+    }
+
 }
