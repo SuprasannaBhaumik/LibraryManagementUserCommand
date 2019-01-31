@@ -1,4 +1,4 @@
-package com.library.user.remote;
+package com.library.user.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +13,11 @@ import com.library.user.client.UserClient;
 @Configuration
 public class EventStoreClientConfig {
 
+	
     @Bean
     @Primary
-    public UserClient userClient(
-			@Qualifier("com.library.user.remote.RestConfig$EventStoreClient") final RestConfig.EventStoreClient eventStoreClient
-	){
-        return new EventStoreUserClient(eventStoreClient);
+    public UserClient userClient(){
+        return new EventStoreUserClient();
     }
 
 }

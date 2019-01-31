@@ -3,24 +3,28 @@ package com.library.user.client;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+import com.library.user.config.EventStoreClient;
 import com.library.user.event.DomainEvent;
 import com.library.user.event.DomainEvents;
 import com.library.user.model.User;
-import com.library.user.remote.RestConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service("userClient")
 public class EventStoreUserClient implements UserClient {
 
-	private final RestConfig.EventStoreClient eventStoreClient;
+	@Autowired
+	EventStoreClient eventStoreClient;
 
-    public EventStoreUserClient( final RestConfig.EventStoreClient eventStoreClient ) {
+    /*public EventStoreUserClient(final EventStoreClient eventStoreClient) {
         this.eventStoreClient = eventStoreClient;
-    }
+    }*/
     
 	@Override
 	public void save(User user) {

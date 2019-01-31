@@ -11,10 +11,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
+/*import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Table;*/
 
 import com.google.common.collect.ImmutableList;
 import com.library.user.event.DomainEvent;
@@ -31,22 +31,17 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Data
-@Entity
-@Table(name="LIB_USERS")
+/*@Entity
+@Table(name="LIB_USERS")*/
 @Slf4j
 public class User {
 	
-	@Id
-	@Column(name="ID")
 	private UUID id;
 	
-	@Column(name="NAME")
 	private String userName;
 	
-	@Column(name="AGE")
 	private int age;
 	
-	@Column(name="SUBSCRIBTION_ID")
 	private long subscribtionId;
 	
 	@Getter(value=AccessLevel.NONE)
@@ -112,3 +107,9 @@ public class User {
 	}
 
 }
+
+/*@Id
+@Column(name="ID")
+@Column(name="NAME")
+@Column(name="AGE")
+@Column(name="SUBSCRIBTION_ID")*/
