@@ -20,14 +20,14 @@ import com.library.user.event.DomainEvent;
 @EnableFeignClients
 public class RestConfig {
 
-    @FeignClient(value = "esd-event-store")
+    @FeignClient(value="lib-event-store")
     public interface EventStoreClient {
 
-        @PostMapping( path = "/createUser" )
-        ResponseEntity addNewDomainEvent( @RequestBody DomainEvent event );
+        @PostMapping(path="/createUser")
+        ResponseEntity addNewDomainEvent(@RequestBody DomainEvent event);
 
-        @GetMapping( path = "/{userId}" )
-        DomainEvents getDomainEventsForUser( @PathVariable( "userId" ) UUID userId );
+        @GetMapping(path="/{userId}")
+        DomainEvents getDomainEventsForUser(@PathVariable( "userId" ) UUID userId);
 
     }
 

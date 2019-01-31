@@ -1,5 +1,7 @@
 package com.library.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import com.library.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping( "/users" )
+@RequestMapping("/users")
 @Slf4j
 public class UserController {
 
@@ -39,6 +41,7 @@ public class UserController {
 				.created(
 						uriComponentsBuilder
 						.path("/users/{userId}")
+						.queryParam("name",user.getName())
 						.buildAndExpand(userId)
 						.toUri()
 				)
@@ -46,9 +49,10 @@ public class UserController {
 	}
 	
 	@PatchMapping( "/{userId}" )
-    public ResponseEntity renameUser( @PathVariable( "userId" ) UUID userId, @RequestParam( "name" ) String name, final UriComponentsBuilder uriComponentsBuilder ) {
-        log.debug( "renameUser : enter" );
-        this.service.renameUser( userId, name );
+	public ResponseEntity renameUser(@PathVariable("userId") UUID userId, @RequestParam("name") String name,
+			final UriComponentsBuilder uriComponentsBuilder) {
+        log.debug("renameUser : enter");
+        this.service.renameUser(userId, name);
         return ResponseEntity
                 .accepted()
                 .build();

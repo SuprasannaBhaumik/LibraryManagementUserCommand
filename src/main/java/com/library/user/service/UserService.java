@@ -29,7 +29,9 @@ public class UserService {
     public void renameUser( final UUID userId, final String name ) {
         log.debug( "renameUser : enter" );
         User user = this.client.find(userId);
-        user.renameUser(name);
-        this.client.save(user);
+        if(user != null && !user.getUserName().equalsIgnoreCase(name)) {
+        	user.renameUser(name);
+        	this.client.save(user);
+        }
     }
 }

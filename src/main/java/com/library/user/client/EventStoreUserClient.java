@@ -23,17 +23,17 @@ public class EventStoreUserClient implements UserClient {
     
 	@Override
 	public void save(User user) {
-		log.debug( "User save : enter" );
+		log.info("User save : enter");
         List<DomainEvent> newChanges = user.changes();
-        newChanges.forEach( domainEvent -> {
-            log.debug( "save : domainEvent=" + domainEvent );
+        newChanges.forEach(domainEvent -> {
+            log.debug("save : domainEvent=" + domainEvent);
             ResponseEntity accepted = this.eventStoreClient.addNewDomainEvent(domainEvent);
-            if( !accepted.getStatusCode().equals( HttpStatus.ACCEPTED ) ) {
-                throw new IllegalStateException( "could not add DomainEvent to the Event Store" );
+            if(!accepted.getStatusCode().equals(HttpStatus.ACCEPTED)) {
+                throw new IllegalStateException("could not add DomainEvent to the Event Store");
             }
         });
         user.flushChanges();
-        log.debug( "User save : exit" );
+        log.info("User save : exit");
 	}
 
 	@Override
