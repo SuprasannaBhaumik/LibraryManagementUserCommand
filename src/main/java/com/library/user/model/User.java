@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.common.collect.ImmutableList;
 import com.library.user.event.DomainEvent;
 import com.library.user.event.UserDeleted;
 import com.library.user.event.UserInitialized;
@@ -99,10 +100,10 @@ public class User {
 
 	public User handleEvent(final DomainEvent domainEvent) {
         return API.Match(domainEvent).of(
-                Case($(instanceOf(UserInitialized.class)), this::userInitialized ),
-                Case($(instanceOf(UserRenamed.class)), this::userRenamed ),
-                Case($(instanceOf(UserDeleted.class ) ), this::userDeleted ),
-                Case( $(), this )
+                Case($(instanceOf(UserInitialized.class)), this::userInitialized),
+                Case($(instanceOf(UserRenamed.class)), this::userRenamed),
+                Case($(instanceOf(UserDeleted.class ) ), this::userDeleted),
+                Case($(), this)
         );
     }
 

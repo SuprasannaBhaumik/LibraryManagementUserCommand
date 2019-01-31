@@ -16,8 +16,7 @@ public class EventStoreClientConfig {
     @Bean
     @Primary
     public UserClient userClient(
-			@Qualifier("com.library.user.remote.RestConfig$EventStoreClient") 
-			final RestConfig.EventStoreClient eventStoreClient
+			@Qualifier("com.library.user.remote.RestConfig$EventStoreClient") final RestConfig.EventStoreClient eventStoreClient
 	){
         return new EventStoreUserClient(eventStoreClient);
     }

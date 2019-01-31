@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.library.user.event.DomainEvent;
+import com.library.user.event.DomainEvents;
 import com.library.user.model.User;
 import com.library.user.remote.RestConfig;
 
@@ -38,7 +39,19 @@ public class EventStoreUserClient implements UserClient {
 
 	@Override
 	public User find(UUID userId) {
-		return null;
+		log.debug("find : enter");
+
+        DomainEvents domainEvents = this.eventStoreClient.getDomainEventsForUser(userId);
+        if( domainEvents.getDomainEvents().isEmpty() ) {
+            log.warn("find : exit, target[" + userId.toString() + "] not found");
+            throw new IllegalArgumentException( "User[" + userId.toString() + "] not found");
+        }
+
+        User user = User.createFrom(userId, domainEvents.getDomainEvents());
+        user.flushChanges();
+
+        log.debug("find : exit");
+        return user;
 	}
 
 }
